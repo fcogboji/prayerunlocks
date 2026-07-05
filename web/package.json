@@ -1,0 +1,38 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "eslint",
+    "db:generate": "prisma generate",
+    "db:push": "sh -c 'if [ -f .env.local ]; then set -a && . ./.env.local && set +a; elif [ -f .env ]; then set -a && . ./.env && set +a; fi; prisma db push'",
+    "db:migrate": "sh -c 'if [ -f .env.local ]; then set -a && . ./.env.local && set +a; elif [ -f .env ]; then set -a && . ./.env && set +a; fi; prisma migrate dev'",
+    "db:studio": "sh -c 'if [ -f .env.local ]; then set -a && . ./.env.local && set +a; elif [ -f .env ]; then set -a && . ./.env && set +a; fi; prisma studio'",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@clerk/nextjs": "^7.5.8",
+    "@prisma/client": "^6.19.3",
+    "next": "16.2.9",
+    "openai": "^6.44.0",
+    "prisma": "^6.19.3",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "stripe": "^22.2.3",
+    "svix": "^1.96.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.9",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

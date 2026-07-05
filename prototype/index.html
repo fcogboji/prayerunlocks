@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Steadfast</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar" aria-label="Primary">
+        <div class="brand">
+          <div class="brand-mark">S</div>
+          <div>
+            <p>Steadfast</p>
+            <span>Daily faith rhythm</span>
+          </div>
+        </div>
+
+        <nav class="nav-tabs" aria-label="App sections">
+          <button class="nav-tab active" data-view="today" type="button">
+            <span class="icon" aria-hidden="true">☀</span>
+            <span>Today</span>
+          </button>
+          <button class="nav-tab" data-view="coach" type="button">
+            <span class="icon" aria-hidden="true">✦</span>
+            <span>Coach</span>
+          </button>
+          <button class="nav-tab" data-view="partners" type="button">
+            <span class="icon" aria-hidden="true">＋</span>
+            <span>Partners</span>
+          </button>
+          <button class="nav-tab" data-view="insights" type="button">
+            <span class="icon" aria-hidden="true">◷</span>
+            <span>Insights</span>
+          </button>
+        </nav>
+
+        <div class="subscription">
+          <span>Premium</span>
+          <strong>AI coach, groups, deeper insights</strong>
+          <button type="button" id="upgradeBtn">£4.99/month</button>
+        </div>
+      </aside>
+
+      <main class="app">
+        <section class="hero-panel">
+          <div class="hero-copy">
+            <p id="dateLabel"></p>
+            <h1>Stay consistent with God daily.</h1>
+          </div>
+          <div class="streak-orbit" aria-label="Current streak">
+            <span id="streakValue">0</span>
+            <small>day streak</small>
+          </div>
+        </section>
+
+        <section class="view active" id="today">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Today's Walk</p>
+              <h2 id="greeting">Good morning</h2>
+            </div>
+            <button class="quiet-button" id="resetToday" type="button">Reset</button>
+          </div>
+
+          <div class="habit-grid" id="habitGrid"></div>
+
+          <div class="progress-band">
+            <div>
+              <p class="eyebrow">Daily Progress</p>
+              <h3><span id="completedCount">0</span> of 4 completed</h3>
+            </div>
+            <div class="progress-ring" aria-label="Completion percentage">
+              <svg viewBox="0 0 120 120" role="img">
+                <circle cx="60" cy="60" r="52"></circle>
+                <circle id="progressCircle" cx="60" cy="60" r="52"></circle>
+              </svg>
+              <strong id="progressText">0%</strong>
+            </div>
+          </div>
+
+          <div class="daily-plan">
+            <div class="section-head compact">
+              <div>
+                <p class="eyebrow">Custom Plan</p>
+                <h2>Peace in pressure</h2>
+              </div>
+              <span>Day 3</span>
+            </div>
+            <p>
+              Read Matthew 6:25-34, write one worry you are surrendering, then send a prayer nudge to someone you trust.
+            </p>
+          </div>
+        </section>
+
+        <section class="view" id="coach">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">AI Bible Coach</p>
+              <h2>Ask for clarity, wisdom, or a prayer</h2>
+            </div>
+          </div>
+
+          <div class="prompt-row" id="promptRow">
+            <button type="button">Explain John 3:16</button>
+            <button type="button">How do I handle anxiety biblically?</button>
+            <button type="button">Help me pray for discipline</button>
+          </div>
+
+          <div class="chat-window" id="chatWindow" aria-live="polite"></div>
+
+          <form class="coach-form" id="coachForm">
+            <input id="coachInput" type="text" autocomplete="off" placeholder="Ask your Bible coach" />
+            <button type="submit">Send</button>
+          </form>
+        </section>
+
+        <section class="view" id="partners">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Accountability</p>
+              <h2>Walk with people who help you keep going</h2>
+            </div>
+            <button class="primary-button" id="inviteBtn" type="button">Invite</button>
+          </div>
+
+          <div class="partner-list" id="partnerList"></div>
+
+          <form class="partner-form" id="partnerForm">
+            <input id="partnerName" type="text" autocomplete="off" placeholder="Partner name" />
+            <button type="submit">Add Partner</button>
+          </form>
+        </section>
+
+        <section class="view" id="insights">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Insights</p>
+              <h2>Your consistency snapshot</h2>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <article>
+              <span id="weekScore">0%</span>
+              <p>Weekly consistency</p>
+            </article>
+            <article>
+              <span id="prayerCount">0</span>
+              <p>Prayer days this week</p>
+            </article>
+            <article>
+              <span id="nudgeCount">0</span>
+              <p>Encouragements sent</p>
+            </article>
+          </div>
+
+          <div class="timeline" id="timeline"></div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>

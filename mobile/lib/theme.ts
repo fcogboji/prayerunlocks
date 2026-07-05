@@ -1,0 +1,52 @@
+export const colors = {
+  bg: "#121212",
+  bgElevated: "#1a1a1a",
+  card: "#1e1e1e",
+  cardBorder: "rgba(255,255,255,0.06)",
+  ink: "#ffffff",
+  muted: "#8b8b9a",
+  mutedDark: "#5c5c6a",
+  line: "rgba(255,255,255,0.08)",
+  lime: "#ccff00",
+  limeMuted: "rgba(204,255,0,0.15)",
+  gold: "#ccff00",
+  goldLight: "#e5ff66",
+  goldDark: "#a3cc00",
+  green: "#ccff00",
+  purple: "#a855f7",
+  orange: "#f97316",
+  coral: "#fb7185",
+  blue: "#38bdf8",
+  mint: "#ccff00",
+  pink: "#ff4ead",
+  pinkMuted: "rgba(255,78,173,0.15)",
+  purpleMuted: "rgba(168,85,247,0.15)",
+  gradientPink: "#ff4ead",
+  gradientPurple: "#a855f7",
+  dashboardBg: "#121216",
+  dashboardCard: "#1c1c24",
+  white: "#ffffff",
+  overlay: "rgba(0,0,0,0.45)",
+  glass: "rgba(255,255,255,0.06)",
+  glassBorder: "rgba(255,255,255,0.1)",
+  // legacy aliases
+  paper: "#121212",
+  moss: "#ccff00",
+  sage: "#a855f7",
+};
+
+export const spacing = {
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32,
+};
+
+export const radius = {
+  sm: 12,
+  md: 16,
+  lg: 20,
+  xl: 24,
+  pill: 999,
+};

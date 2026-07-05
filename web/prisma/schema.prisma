@@ -1,0 +1,183 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum HabitType {
+  BIBLE
+  PRAYER
+  DEVOTIONAL
+  ENCOURAGE
+  FASTING
+}
+
+enum SubscriptionTier {
+  FREE
+  PREMIUM
+}
+
+enum NudgeType {
+  PRAYED_FOR_YOU
+  CHECK_IN
+  ENCOURAGEMENT
+}
+
+enum GroupRole {
+  LEADER
+  MEMBER
+}
+
+model User {
+  id               String           @id @default(cuid())
+  clerkId          String           @unique
+  email            String           @unique
+  name             String?
+  imageUrl         String?
+  inviteCode       String           @unique @default(cuid())
+  tier             SubscriptionTier @default(FREE)
+  stripeCustomerId String?          @unique
+  stripeSubscriptionId String?       @unique
+  pushToken        String?
+  timezone         String           @default("Europe/London")
+  reminderHour     Int              @default(8)
+  reminderEnabled  Boolean          @default(true)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  habits                Habit[]
+  sentNudges            Nudge[]             @relation("SentNudges")
+  receivedNudges        Nudge[]             @relation("ReceivedNudges")
+  partnershipsAsUser    Partnership[]       @relation("UserPartnerships")
+  partnershipsAsPartner Partnership[]       @relation("PartnerPartnerships")
+  chatMessages          ChatMessage[]
+  waitlistEntry         WaitlistEntry?
+  ledGroups             ChurchGroup[]       @relation("LedGroups")
+  churchMemberships     ChurchMembership[]
+  analyticsEvents       AnalyticsEvent[]
+  unlockRequests        UnlockRequest[]
+}
+
+model Habit {
+  id        String    @id @default(cuid())
+  userId    String
+  type      HabitType
+  date      DateTime  @db.Date
+  completed Boolean   @default(true)
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, type, date])
+  @@index([userId, date])
+}
+
+model Partnership {
+  id        String   @id @default(cuid())
+  userId    String
+  partnerId String
+  createdAt DateTime @default(now())
+
+  user    User @relation("UserPartnerships", fields: [userId], references: [id], onDelete: Cascade)
+  partner User @relation("PartnerPartnerships", fields: [partnerId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, partnerId])
+  @@index([userId])
+  @@index([partnerId])
+}
+
+model Nudge {
+  id         String    @id @default(cuid())
+  fromUserId String
+  toUserId   String
+  type       NudgeType @default(ENCOURAGEMENT)
+  message    String?
+  read       Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+
+  fromUser User @relation("SentNudges", fields: [fromUserId], references: [id], onDelete: Cascade)
+  toUser   User @relation("ReceivedNudges", fields: [toUserId], references: [id], onDelete: Cascade)
+
+  @@index([toUserId, read])
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  userId    String
+  role      String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model WaitlistEntry {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  userId    String?  @unique
+  source    String   @default("landing")
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model ChurchGroup {
+  id         String   @id @default(cuid())
+  name       String
+  churchName String?
+  inviteCode String   @unique @default(cuid())
+  leaderId   String
+  createdAt  DateTime @default(now())
+
+  leader  User               @relation("LedGroups", fields: [leaderId], references: [id], onDelete: Cascade)
+  members ChurchMembership[]
+}
+
+model ChurchMembership {
+  id       String    @id @default(cuid())
+  userId   String
+  groupId  String
+  role     GroupRole @default(MEMBER)
+  joinedAt DateTime  @default(now())
+
+  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group ChurchGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, groupId])
+  @@index([groupId])
+}
+
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  type      String
+  userId    String?
+  path      String?
+  metadata  String?  @db.Text
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([type, createdAt])
+  @@index([createdAt])
+}
+
+model UnlockRequest {
+  id         String   @id @default(cuid())
+  userId     String
+  situation  String   @db.Text
+  prayerType String?
+  verses     String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([createdAt])
+}
